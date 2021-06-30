@@ -22,6 +22,23 @@ const gameOptions = {
     })
 }
 
+const againPlay = {
+    reply_markup: JSON.stringify({
+        inline_keyboard: [
+            [{text: "Играть еще раз", callback_data: '/again'}],
+        ]
+    })
+}
+
+const startNewGame = async (chat_id) =>{
+    await bot.sendMessage(chat_id, responses.response.game_first)
+    const randomNubmer = Math.floor(Math.random() * 10)
+    chats[chat_id] = randomNubmer
+    console.log(randomNubmer)
+    await bot.sendSticker(chat_id, stickers.stickers.deamon.game)
+    await bot.sendMessage(chat_id, responses.response.game_second, gameOptions)
+}
+
 const bot = new TgBotAPI(tg_token, {polling: true})
 
 const run = () =>{
@@ -47,11 +64,7 @@ const run = () =>{
                 await bot.sendMessage(chat_id, responses.response.help)
                 break;
             case command.commands.game:
-                await bot.sendMessage(chat_id, responses.response.game_first)
-                const randomNubmer = Math.floor(Math.random() * 10)
-                chats[chat_id] = randomNubmer
-                await bot.sendSticker(chat_id, stickers.stickers.deamon.game)
-                await bot.sendMessage(chat_id, responses.response.game_second, gameOptions)
+                startNewGame(chat_id)
                 break;
             default:
                 await bot.sendSticker(chat_id, stickers.stickers.deamon.error)
@@ -64,7 +77,17 @@ const run = () =>{
         const data = msg.data
         const chat_id = msg.message.chat.id
 
-        bot.sendMessage(chat_id, `Ты выбрал цифру ${data}`)
+        console.log(msg.message.chat.first_name)
+        if (data == chats[chat_id]){
+            await bot.sendSticker(chat_id, stickers.stickers.deamon.win)
+            return bot.sendMessage(chat_id, `Хорошая работа ${msg.message.chat.first_name}, ты отгадал цифру ${chats[chat_id]}`)
+        }else if(data === '/again'){
+            startNewGame(chat_id)
+        }else{
+            await bot.sendSticker(chat_id, stickers.stickers.deamon.fail)
+            return bot.sendMessage(chat_id,`К сожалению ты не угадал цифру ${chats[chat_id]}, попробуй еще раз`, againPlay)
+        }
+        
     })
 }
 

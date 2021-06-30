@@ -6,8 +6,14 @@ const tg_token = process.env.tg_token
 
 const bot = new TgBotAPI(tg_token, {polling: true})
 
+// start bot
 bot.on('message', msg => {
     const user_text = msg.text
     const chat_id = msg.chat.id
-    console.log(`user message ${user_text}, chat id ${chat_id}`)
+    const user_first_name = msg.chat.first_name
+    // send response to user 
+    if (user_text === '/start'){
+        bot.sendMessage(chat_id, `Добро пожаловать дорогой ${user_first_name}!`)
+    }
+    console.log(msg)
 })

@@ -8,27 +8,9 @@ const command = require('./config/config.json')
 const descriptions = require('./config/config.json')
 const responses = require('./config/config.json')
 
+const {gameOptions, againPlay} = require('./options/options')
+
 const chats = {}
-
-// send form 
-const gameOptions = {
-    reply_markup: JSON.stringify({
-        inline_keyboard: [
-            [{text: "7", callback_data: '7'},{text: "8", callback_data: '8'},{text: "9", callback_data: '9'}],
-            [{text: "4", callback_data: '4'},{text: "5", callback_data: '5'},{text: "6", callback_data: '6'}],
-            [{text: "1", callback_data: '1'},{text: "2", callback_data: '2'},{text: "3", callback_data: '3'}],
-            [{text: "0", callback_data: '0'}],
-        ]
-    })
-}
-
-const againPlay = {
-    reply_markup: JSON.stringify({
-        inline_keyboard: [
-            [{text: "Играть еще раз", callback_data: '/again'}],
-        ]
-    })
-}
 
 const startNewGame = async (chat_id) =>{
     await bot.sendMessage(chat_id, responses.response.game_first)
@@ -70,24 +52,25 @@ const run = () =>{
                 await bot.sendSticker(chat_id, stickers.stickers.deamon.error)
                 await bot.sendMessage(chat_id, responses.response.error)
         }
-        // console.log(msg)
     })
     // hadnle form
     bot.on('callback_query', async msg => {
         const data = msg.data
         const chat_id = msg.message.chat.id
+        const user_first_name = msg.message.chat.first_name
 
-        console.log(msg.message.chat.first_name)
-        if (data == chats[chat_id]){
-            await bot.sendSticker(chat_id, stickers.stickers.deamon.win)
-            return bot.sendMessage(chat_id, `Хорошая работа ${msg.message.chat.first_name}, ты отгадал цифру ${chats[chat_id]}`)
-        }else if(data === '/again'){
-            startNewGame(chat_id)
-        }else{
-            await bot.sendSticker(chat_id, stickers.stickers.deamon.fail)
-            return bot.sendMessage(chat_id,`К сожалению ты не угадал цифру ${chats[chat_id]}, попробуй еще раз`, againPlay)
+        switch(data){
+            case String(chats[chat_id]):
+                await bot.sendSticker(chat_id, stickers.stickers.deamon.win)
+                await bot.sendMessage(chat_id, `${responses.response.onSend.success_first} ${user_first_name}, ${responses.response.onSend.success_second} ${chats[chat_id]}`)
+                break
+            case '/again': 
+                startNewGame(chat_id)
+                break
+            default:
+                await bot.sendSticker(chat_id, stickers.stickers.deamon.fail)
+                await bot.sendMessage(chat_id, `${responses.response.onSend.fail_first} ${chats[chat_id]}, ${responses.response.onSend.fail_second}`, againPlay)
         }
-        
     })
 }
 

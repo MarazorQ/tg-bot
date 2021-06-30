@@ -10,6 +10,18 @@ const responses = require('./config/config.json')
 
 const chats = {}
 
+// send form 
+const gameOptions = {
+    reply_markup: JSON.stringify({
+        inline_keyboard: [
+            [{text: "7", callback_data: 'dasdasd'},{text: "8", callback_data: 'dasdasd'},{text: "9", callback_data: 'dasdasd'}],
+            [{text: "4", callback_data: 'dasdasd'},{text: "5", callback_data: 'dasdasd'},{text: "6", callback_data: 'dasdasd'}],
+            [{text: "1", callback_data: 'dasdasd'},{text: "2", callback_data: 'dasdasd'},{text: "3", callback_data: 'dasdasd'}],
+            [{text: "0", callback_data: 'dasdasd'}],
+        ]
+    })
+}
+
 const bot = new TgBotAPI(tg_token, {polling: true})
 
 const run = () =>{
@@ -39,7 +51,7 @@ const run = () =>{
                 const randomNubmer = Math.floor(Math.random() * 10)
                 chats[chat_id] = randomNubmer
                 await bot.sendSticker(chat_id, stickers.stickers.deamon.game)
-                await bot.sendMessage(chat_id, responses.response.game_second)
+                await bot.sendMessage(chat_id, responses.response.game_second, gameOptions)
                 break;
             default:
                 await bot.sendSticker(chat_id, stickers.stickers.deamon.error)

@@ -14,10 +14,10 @@ const chats = {}
 const gameOptions = {
     reply_markup: JSON.stringify({
         inline_keyboard: [
-            [{text: "7", callback_data: 'dasdasd'},{text: "8", callback_data: 'dasdasd'},{text: "9", callback_data: 'dasdasd'}],
-            [{text: "4", callback_data: 'dasdasd'},{text: "5", callback_data: 'dasdasd'},{text: "6", callback_data: 'dasdasd'}],
-            [{text: "1", callback_data: 'dasdasd'},{text: "2", callback_data: 'dasdasd'},{text: "3", callback_data: 'dasdasd'}],
-            [{text: "0", callback_data: 'dasdasd'}],
+            [{text: "7", callback_data: '7'},{text: "8", callback_data: '8'},{text: "9", callback_data: '9'}],
+            [{text: "4", callback_data: '4'},{text: "5", callback_data: '5'},{text: "6", callback_data: '6'}],
+            [{text: "1", callback_data: '1'},{text: "2", callback_data: '2'},{text: "3", callback_data: '3'}],
+            [{text: "0", callback_data: '0'}],
         ]
     })
 }
@@ -57,7 +57,14 @@ const run = () =>{
                 await bot.sendSticker(chat_id, stickers.stickers.deamon.error)
                 await bot.sendMessage(chat_id, responses.response.error)
         }
-        console.log(msg)
+        // console.log(msg)
+    })
+    // hadnle form
+    bot.on('callback_query', async msg => {
+        const data = msg.data
+        const chat_id = msg.message.chat.id
+
+        bot.sendMessage(chat_id, `Ты выбрал цифру ${data}`)
     })
 }
 

@@ -3,29 +3,51 @@ require('dotenv').config()
 const TgBotAPI = require('node-telegram-bot-api')
 
 const tg_token = process.env.tg_token
-const stickers = require('./config.json')
+const stickers = require('./config/config.json')
+const command = require('./config/config.json')
+const descriptions = require('./config/config.json')
+const responses = require('./config/config.json')
+
+const chats = {}
 
 const bot = new TgBotAPI(tg_token, {polling: true})
 
-//set commands
-bot.setMyCommands([
-    {command: '/start', description: 'Приветсвие'},
-    {command: '/info', description: 'Информация'}
-])
+const run = () =>{
+    //set commands
+    bot.setMyCommands([
+        {command: command.commands.start, description: descriptions.commands_description.start},
+        {command: command.commands.help, description: descriptions.commands_description.help},
+        {command: command.commands.game, description: descriptions.commands_description.game}
+    ])
+    // start bot
+    bot.on('message', async msg => {
+        const user_text = msg.text
+        const chat_id = msg.chat.id
+        const user_first_name = msg.chat.first_name
+        // send response to user 
+        switch(user_text){
+            case command.commands.start:
+                await bot.sendSticker(chat_id, stickers.stickers.deamon.welcome)
+                await bot.sendMessage(chat_id, `${responses.response.start} ${user_first_name}!`)
+                break;
+            case command.commands.help:
+                await bot.sendSticker(chat_id, stickers.stickers.deamon.help)
+                await bot.sendMessage(chat_id, responses.response.help)
+                break;
+            case command.commands.game:
+                await bot.sendMessage(chat_id, responses.response.game_first)
+                const randomNubmer = Math.floor(Math.random() * 10)
+                chats[chat_id] = randomNubmer
+                await bot.sendSticker(chat_id, stickers.stickers.deamon.game)
+                await bot.sendMessage(chat_id, responses.response.game_second)
+                break;
+            default:
+                await bot.sendSticker(chat_id, stickers.stickers.deamon.error)
+                await bot.sendMessage(chat_id, responses.response.error)
+        }
+        console.log(msg)
+    })
+}
 
-// start bot
-bot.on('message', msg => {
-    const user_text = msg.text
-    const chat_id = msg.chat.id
-    const user_first_name = msg.chat.first_name
-    // send response to user 
-    if (user_text === '/start'){
-        bot.sendSticker(chat_id, stickers.stickers.deamon.welcome)
-        bot.sendMessage(chat_id, `Добро пожаловать дорогой ${user_first_name}!`)
-    }
-    if (user_text === '/help'){
-        bot.sendSticker(chat_id, stickers.stickers.deamon.help)
-        bot.sendMessage(chat_id, 'Информация')
-    }
-    console.log(msg)
-})
+//run app
+run()

@@ -26,7 +26,6 @@ const startNewGame = async (chat_id) =>{
 }
 
 const bot = new TgBotAPI(tg_token, {polling: true})
-const user = null
 
 const run = async () =>{
     try{
@@ -35,8 +34,6 @@ const run = async () =>{
                 useUnifiedTopology: true, 
                 useNewUrlParser: true
             })
-        .then(() => console.log('MongoDB success connection'))
-        .catch(err => console.log(err))
     }catch(e){
         console.log('ERROR', e)
     }
@@ -44,8 +41,9 @@ const run = async () =>{
     //set commands
     bot.setMyCommands([
         {command: command.commands.start, description: descriptions.commands_description.start},
-        {command: command.commands.help, description: descriptions.commands_description.help},
-        {command: command.commands.game, description: descriptions.commands_description.game}
+        {command: command.commands.info, description: descriptions.commands_description.info},
+        {command: command.commands.game, description: descriptions.commands_description.game},
+        {command: command.commands.help, description: descriptions.commands_description.help}
     ])
     // start bot
     bot.on('message', async msg => {
@@ -57,18 +55,25 @@ const run = async () =>{
             // send response to user 
             switch(user_text){
                 case command.commands.start:
-                    await User.create({chatId: chat_id})
+                    const count = await User.findOne({chatId: chat_id})
+                    if (!count){
+                        await User.create({chatId: chat_id})
+                    }
                     await bot.sendSticker(chat_id, stickers.stickers.deamon.welcome)
                     await bot.sendMessage(chat_id, `${responses.response.start} ${user_first_name}!`)
                     break;
-                case command.commands.help:
+                case command.commands.info:
                     const user = await User.find({chatId: chat_id})
-                    await bot.sendSticker(chat_id, stickers.stickers.deamon.help)
-                    await bot.sendMessage(chat_id, `${responses.response.help_first} ${user[0].right} ${responses.response.help_count}, ${responses.response.help_second}  ${user[0].wrong} ${responses.response.help_count}`)
+                    await bot.sendSticker(chat_id, stickers.stickers.deamon.info)
+                    await bot.sendMessage(chat_id, `${responses.response.info_first} ${user[0].right} ${responses.response.info_count}, ${responses.response.info_second}  ${user[0].wrong} ${responses.response.info_count}`)
                     break;
                 case command.commands.game:
                     startNewGame(chat_id)
                     break;
+                case command.commands.help:
+                    await bot.sendSticker(chat_id, stickers.stickers.deamon.help)
+                    await bot.sendMessage(chat_id, responses.response.help)
+                    break
                 default:
                     await bot.sendSticker(chat_id, stickers.stickers.deamon.error)
                     await bot.sendMessage(chat_id, responses.response.error)

@@ -2,31 +2,35 @@
     "stickers": {
         "deamon": {
             "welcome": "https://cdn.tlgrm.ru/stickers/c62/4a8/c624a88d-1fe3-403a-b41a-3cdb9bf05b8a/192/1.webp",
-            "help": "https://tlgrm.ru/_/stickers/c62/4a8/c624a88d-1fe3-403a-b41a-3cdb9bf05b8a/35.webp",
+            "info": "https://tlgrm.ru/_/stickers/c62/4a8/c624a88d-1fe3-403a-b41a-3cdb9bf05b8a/35.webp",
             "game": "https://tlgrm.ru/_/stickers/c62/4a8/c624a88d-1fe3-403a-b41a-3cdb9bf05b8a/35.webp",
             "fail": "https://tlgrm.ru/_/stickers/c62/4a8/c624a88d-1fe3-403a-b41a-3cdb9bf05b8a/36.webp",
             "win": "https://tlgrm.ru/_/stickers/c62/4a8/c624a88d-1fe3-403a-b41a-3cdb9bf05b8a/46.webp",
-            "error": "https://tlgrm.ru/_/stickers/c62/4a8/c624a88d-1fe3-403a-b41a-3cdb9bf05b8a/37.webp"
+            "error": "https://tlgrm.ru/_/stickers/c62/4a8/c624a88d-1fe3-403a-b41a-3cdb9bf05b8a/37.webp",
+            "help": "https://tlgrm.ru/_/stickers/c62/4a8/c624a88d-1fe3-403a-b41a-3cdb9bf05b8a/44.webp"
         }
     },
     "commands": {
         "start": "/start",
-        "help": "/help",
-        "game": "/game"
+        "info": "/info",
+        "game": "/game",
+        "help": "/help"
     },
     "commands_description": {
         "start": "Приветствие",
-        "help": "Информация",
-        "game": "Играть"
+        "info": "Информация",
+        "game": "Играть",
+        "help": "Помощь"
     },
     "response": {
         "start": "Добро пожаловать дорогой",
-        "help_first": "Ты выиграл",
-        "help_second": "a проиграл",
-        "help_count": "раз",
+        "info_first": "Ты выиграл",
+        "info_second": "a проиграл",
+        "info_count": "раз",
         "game_first": "Сейчас я загадую цифру от 0 до 9, а ды должен ее отгадать!",
         "game_second": "Отгадывай",
         "error": "Я тебя не понимаю, напиши '/help' чтобы узнать список доступных команд!",
+        "help": "Если хочешь поиграть со мной, то напиши '/game', если хочешь посмотреть статистику по сыгранным играм, то напиши '/info', про '/start' и '/help' ты уже знаешь!",
         "onSend": {
             "success_first": "Хорошая работа",
             "success_second": "ты отгадал цифру",

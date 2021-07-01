@@ -16,6 +16,10 @@ const {gameOptions, againPlay} = require('./options/options')
 
 const chats = {}
 
+const caclucationWins = (count_win, count_fail) =>{
+    return Math.floor((count_win / (count_win + count_fail)) * 100)
+}
+
 const startNewGame = async (chat_id) =>{
     await bot.sendMessage(chat_id, responses.response.game_first)
     const randomNubmer = Math.floor(Math.random() * 10)
@@ -64,8 +68,10 @@ const run = async () =>{
                     break;
                 case command.commands.info:
                     const user = await User.find({chatId: chat_id})
+                    const wins = caclucationWins(user[0].right, user[0].wrong)
+
                     await bot.sendSticker(chat_id, stickers.stickers.deamon.info)
-                    await bot.sendMessage(chat_id, `${responses.response.info_first} ${user[0].right} ${responses.response.info_count}, ${responses.response.info_second}  ${user[0].wrong} ${responses.response.info_count}`)
+                    await bot.sendMessage(chat_id, `${responses.response.info_first} ${user[0].right} ${responses.response.info_count}, ${responses.response.info_second} ${user[0].wrong} ${responses.response.info_count}. ${responses.response.win_rate} ${wins}. ${wins >= 50? responses.response.win_rate_message_nice: responses.response.win_rate_message_bad}`)
                     break;
                 case command.commands.game:
                     startNewGame(chat_id)
@@ -80,7 +86,7 @@ const run = async () =>{
             }
         }catch(e){
             console.log("Eror",e)
-            await bot.sendMessage(chat_id, 'произошла ошибка')
+            await bot.sendMessage(chat_id, responses.response.server_error)
         }
     })
     // hadnle form

@@ -15,6 +15,27 @@ const callback_data = require('./config/config.json')
 const {gameOptions, againPlay} = require('./options/options')
 
 const chats = {}
+const weekends = [
+    {occupation: responses.response.weekend.cinema, sticker: ''},
+    {occupation: responses.response.weekend.park, sticker: ''},
+    {occupation: responses.response.weekend.aquapark, sticker: ''},
+    {occupation: responses.response.weekend.beach, sticker: ''},
+    {occupation: responses.response.weekend.home, sticker: ''},
+    {occupation: responses.response.weekend.amusement_park, sticker: ''},
+    {occupation: responses.response.weekend.shopping_center, sticker: ''},
+    {occupation: responses.response.weekend.bicycle, sticker: ''},
+    {occupation: responses.response.weekend.restaurant, sticker: ''},
+    {occupation: responses.response.weekend.skates, sticker: ''},
+    {occupation: responses.response.weekend.hike, sticker: ''},
+    {occupation: responses.response.weekend.fishing, sticker: ''},
+    {occupation: responses.response.weekend.hookah, sticker: ''},
+    {occupation: responses.response.weekend.bar, sticker: ''}
+]
+
+const randomIntegerNumber = (min, max) =>{
+    let rand = min + Math.random() * (max + 1 - min)
+    return Math.floor(rand)
+}
 
 const caclucationWins = (count_win, count_fail) =>{
     return Math.floor((count_win / (count_win + count_fail)) * 100)
@@ -47,7 +68,8 @@ const run = async () =>{
         {command: command.commands.start, description: descriptions.commands_description.start},
         {command: command.commands.info, description: descriptions.commands_description.info},
         {command: command.commands.game, description: descriptions.commands_description.game},
-        {command: command.commands.help, description: descriptions.commands_description.help}
+        {command: command.commands.help, description: descriptions.commands_description.help},
+        {command: command.commands.weekend, description: descriptions.commands_description.weekend}
     ])
     // start bot
     bot.on('message', async msg => {
@@ -69,7 +91,6 @@ const run = async () =>{
                 case command.commands.info:
                     const user = await User.find({chatId: chat_id})
                     const wins = caclucationWins(user[0].right, user[0].wrong)
-
                     await bot.sendSticker(chat_id, stickers.stickers.deamon.info)
                     await bot.sendMessage(chat_id, `${responses.response.info_first} ${user[0].right} ${responses.response.info_count}, ${responses.response.info_second} ${user[0].wrong} ${responses.response.info_count}. ${responses.response.win_rate} ${wins}. ${wins >= 50? responses.response.win_rate_message_nice: responses.response.win_rate_message_bad}`)
                     break;
@@ -79,6 +100,10 @@ const run = async () =>{
                 case command.commands.help:
                     await bot.sendSticker(chat_id, stickers.stickers.deamon.help)
                     await bot.sendMessage(chat_id, responses.response.help)
+                    break
+                case command.commands.weekend:
+                    const random_weekend = randomIntegerNumber(0, weekends.length - 1)
+                    await bot.sendMessage(chat_id, weekends[random_weekend].occupation)
                     break
                 default:
                     await bot.sendSticker(chat_id, stickers.stickers.deamon.error)

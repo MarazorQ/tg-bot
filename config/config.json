@@ -10,7 +10,20 @@
             "help": "https://tlgrm.ru/_/stickers/c62/4a8/c624a88d-1fe3-403a-b41a-3cdb9bf05b8a/44.webp"
         },
         "weekend": {
-
+            "cinema": "https://img.the-village.me/the-village.me/post_image-image/_tw5IzLHZ3PSVWz2mI7LKg-wide.jpg",
+            "park": "https://www.newyorkbyrail.com/wp-content/uploads/2017/12/Central-Park-New-York-City-New-York-By-Rail-1200x650.jpg",
+            "aquapark": "https://obzor-akvaparkov.ru/wp-content/uploads/2018/06/img_5b2cce953d9b0.png",
+            "beach": "https://www.visitflorida.com/content/dam/visitflorida/en-us/images/full-rights/500px-images/500px-all-rights-08-miami/miami-aerial-coastline-full-rights-500px2.jpg.1200.630.rendition",
+            "home": "https://image.freepik.com/free-photo/home-comfort-living-room-with-sofa-and-home-decor_169016-2320.jpg",
+            "amusement_park": "https://2sva3y2ji4s95ite32x69vsx-wpengine.netdna-ssl.com/wp-content/uploads/2019/12/roller-coaster-2-horz-1024x768.jpg",
+            "shopping_center": "https://masheka.by/uploads/posts/2020-03/1585037951_danamalls.jpg",
+            "bicycle": "http://velomesto.com/media/images/c5d76c032e69432f680877f97a042347.jpg.1000x0_q85.jpg",
+            "restaurant": "https://static.relax.by/images/common/wysiwyg/2019/05/472dcd4f50daa0417b5375f434c8e097.jpg",
+            "skates": "https://st3.depositphotos.com/9880800/17554/i/600/depositphotos_175547310-stock-photo-low-section-of-couple-in.jpg",
+            "hike": "https://lh3.googleusercontent.com/proxy/fVf_7pKzIa2iEPb3okuzovYQB_Im2WM6DuzPS9C-jhB8BNcPRZZgH0NX2tVM19HJmB5U5eXnabSAqddjDgQ3vyQGpyelijYk3n3sqZv3WrTqSW2nDpHk8hgUojKw90ntF86KDazR_Opn0B1p1rOvUskV",
+            "fishing": "https://fishmanual.ru/images/header/leto.jpg",
+            "hookah": "https://media-cdn.tripadvisor.com/media/photo-s/14/78/a7/b3/caption.jpg",
+            "bar": "https://www.visit-belarus.com/wp-content/uploads/2017/11/IDbar.jpg"
         }
     },
     "commands": {
@@ -61,7 +74,6 @@
             "fishing": "Пойти на рыбалку",
             "hookah": "Пойти в кальянную",
             "bar": "Пойти в бар"
-
         }
     },
     "callback_data": {

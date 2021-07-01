@@ -16,20 +16,20 @@ const {gameOptions, againPlay} = require('./options/options')
 
 const chats = {}
 const weekends = [
-    {occupation: responses.response.weekend.cinema, sticker: ''},
-    {occupation: responses.response.weekend.park, sticker: ''},
-    {occupation: responses.response.weekend.aquapark, sticker: ''},
-    {occupation: responses.response.weekend.beach, sticker: ''},
-    {occupation: responses.response.weekend.home, sticker: ''},
-    {occupation: responses.response.weekend.amusement_park, sticker: ''},
-    {occupation: responses.response.weekend.shopping_center, sticker: ''},
-    {occupation: responses.response.weekend.bicycle, sticker: ''},
-    {occupation: responses.response.weekend.restaurant, sticker: ''},
-    {occupation: responses.response.weekend.skates, sticker: ''},
-    {occupation: responses.response.weekend.hike, sticker: ''},
-    {occupation: responses.response.weekend.fishing, sticker: ''},
-    {occupation: responses.response.weekend.hookah, sticker: ''},
-    {occupation: responses.response.weekend.bar, sticker: ''}
+    {occupation: responses.response.weekend.cinema, sticker: stickers.stickers.weekend.cinema},
+    {occupation: responses.response.weekend.park, sticker: stickers.stickers.weekend.park},
+    {occupation: responses.response.weekend.aquapark, sticker: stickers.stickers.weekend.aquapark},
+    {occupation: responses.response.weekend.beach, sticker: stickers.stickers.weekend.beach},
+    {occupation: responses.response.weekend.home, sticker: stickers.stickers.weekend.home},
+    {occupation: responses.response.weekend.amusement_park, sticker: stickers.stickers.weekend.amusement_park},
+    {occupation: responses.response.weekend.shopping_center, sticker: stickers.stickers.weekend.shopping_center},
+    {occupation: responses.response.weekend.bicycle, sticker: stickers.stickers.weekend.bicycle},
+    {occupation: responses.response.weekend.restaurant, sticker: stickers.stickers.weekend.restaurant},
+    {occupation: responses.response.weekend.skates, sticker: stickers.stickers.weekend.skates},
+    {occupation: responses.response.weekend.hike, sticker: stickers.stickers.weekend.hike},
+    {occupation: responses.response.weekend.fishing, sticker: stickers.stickers.weekend.fishing},
+    {occupation: responses.response.weekend.hookah, sticker: stickers.stickers.weekend.hookah},
+    {occupation: responses.response.weekend.bar, sticker: stickers.stickers.weekend.bar}
 ]
 
 const randomIntegerNumber = (min, max) =>{
@@ -104,6 +104,7 @@ const run = async () =>{
                 case command.commands.weekend:
                     const random_weekend = randomIntegerNumber(0, weekends.length - 1)
                     await bot.sendMessage(chat_id, weekends[random_weekend].occupation)
+                    await bot.sendPhoto(chat_id, weekends[random_weekend].sticker)
                     break
                 default:
                     await bot.sendSticker(chat_id, stickers.stickers.deamon.error)

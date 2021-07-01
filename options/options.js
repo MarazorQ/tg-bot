@@ -16,5 +16,13 @@ module.exports = {
                 [{text: "Играть еще раз", callback_data: '/again'}],
             ]
         })
+    },
+    startMenu: {
+        reply_markup: JSON.stringify({
+            inline_keyboard: [
+                [{text: "Возможности чата", callback_data: '/help'},{text: "Начать игру", callback_data: '/game'}],
+                [{text: "Как провести время?", callback_data: '/weekend'}],
+            ]
+        })
     }
 }

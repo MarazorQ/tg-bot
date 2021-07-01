@@ -13,7 +13,7 @@ const responses = require('./config/config.json')
 const callback_data = require('./config/config.json')
 const weekends = require('./options/weekend.js')
 
-const {gameOptions, againPlay} = require('./options/options')
+const {gameOptions, againPlay, startMenu} = require('./options/options')
 const CalculateHalper = require('./helpers/CalculateHalper.js')
 
 const chats = {}
@@ -25,6 +25,17 @@ const startNewGame = async (chat_id) =>{
     console.log(randomNubmer)
     await bot.sendSticker(chat_id, stickers.stickers.deamon.game)
     await bot.sendMessage(chat_id, responses.response.game_second, gameOptions)
+}
+
+const getHelp = async (chat_id) =>{
+    await bot.sendSticker(chat_id, stickers.stickers.deamon.help)
+    await bot.sendMessage(chat_id, responses.response.help)
+}
+
+const getWeekend = async (chat_id) =>{
+    const random_weekend = CalculateHalper.randomIntegerNumber(0, weekends.length - 1)
+    await bot.sendMessage(chat_id, weekends[random_weekend].occupation)
+    await bot.sendPhoto(chat_id, weekends[random_weekend].sticker)
 }
 
 const bot = new TgBotAPI(tg_token, {polling: true})
@@ -63,7 +74,7 @@ const run = async () =>{
                         await User.create({chatId: chat_id})
                     }
                     await bot.sendSticker(chat_id, stickers.stickers.deamon.welcome)
-                    await bot.sendMessage(chat_id, `${responses.response.start} ${user_first_name}!`)
+                    await bot.sendMessage(chat_id, `${responses.response.start} ${user_first_name}!`, startMenu)
                     break;
                 case command.commands.info:
                     const user = await User.find({chatId: chat_id})
@@ -75,13 +86,10 @@ const run = async () =>{
                     startNewGame(chat_id)
                     break;
                 case command.commands.help:
-                    await bot.sendSticker(chat_id, stickers.stickers.deamon.help)
-                    await bot.sendMessage(chat_id, responses.response.help)
+                    getHelp(chat_id)
                     break
                 case command.commands.weekend:
-                    const random_weekend = CalculateHalper.randomIntegerNumber(0, weekends.length - 1)
-                    await bot.sendMessage(chat_id, weekends[random_weekend].occupation)
-                    await bot.sendPhoto(chat_id, weekends[random_weekend].sticker)
+                    getWeekend(chat_id)
                     break
                 default:
                     await bot.sendSticker(chat_id, stickers.stickers.deamon.error)
@@ -109,6 +117,15 @@ const run = async () =>{
                 break
             case callback_data.callback_data.again: 
                 startNewGame(chat_id)
+                break
+            case callback_data.callback_data.help:
+                getHelp(chat_id)
+                break
+            case callback_data.callback_data.game:
+                startNewGame(chat_id)
+                break
+            case callback_data.callback_data.weekend:
+                getWeekend(chat_id)
                 break
             default:
                 await User.findOne({chatId: chat_id}, (e, doc) =>{

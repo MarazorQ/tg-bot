@@ -38,8 +38,48 @@ const getWeekend = async (chat_id) =>{
     await bot.sendPhoto(chat_id, weekends[random_weekend].sticker)
 }
 
+const getInfo = async (chat_id) =>{
+    const user = await User.find({chatId: chat_id})
+    const wins = CalculateHalper.caclucationWins(user[0].right, user[0].wrong)
+    await bot.sendSticker(chat_id, stickers.stickers.deamon.info)
+    await bot.sendMessage(chat_id, `${responses.response.info_first} ${user[0].right} ${responses.response.info_count}, ${responses.response.info_second} ${user[0].wrong} ${responses.response.info_count}. ${responses.response.win_rate} ${wins}. ${wins >= 50? responses.response.win_rate_message_nice: responses.response.win_rate_message_bad}`)
+}
+
+const getRightResult = async (chat_id, user_first_name) =>{
+    await User.findOne({chatId: chat_id}, (e, doc) =>{
+        doc.right++
+        doc.save()
+    })
+    await bot.sendSticker(chat_id, stickers.stickers.deamon.win)
+    await bot.sendMessage(chat_id, `${responses.response.onSend.success_first} ${user_first_name}, ${responses.response.onSend.success_second} ${chats[chat_id]}`)
+}
+
+const getWrongResult = async (chat_id) =>{
+    await User.findOne({chatId: chat_id}, (e, doc) =>{
+        doc.wrong++
+        doc.save()
+    })
+    await bot.sendSticker(chat_id, stickers.stickers.deamon.fail)
+    await bot.sendMessage(chat_id, `${responses.response.onSend.fail_first} ${chats[chat_id]}, ${responses.response.onSend.fail_second}`, againPlay)
+}
+
+const getErrorMessage = async (chat_id) =>{
+    await bot.sendSticker(chat_id, stickers.stickers.deamon.error)
+    await bot.sendMessage(chat_id, responses.response.error)
+}
+
+const startCommand = async (chat_id, user_first_name) =>{
+    const count = await User.findOne({chatId: chat_id})
+    if (!count){
+        await User.create({chatId: chat_id})
+    }
+    await bot.sendSticker(chat_id, stickers.stickers.deamon.welcome)
+    await bot.sendMessage(chat_id, `${responses.response.start} ${user_first_name}!`, startMenu)
+}
+
 const bot = new TgBotAPI(tg_token, {polling: true})
 
+// main
 const run = async () =>{
     try{
         await mongoose.connect(db, 
@@ -69,31 +109,22 @@ const run = async () =>{
             // send response to user 
             switch(user_text){
                 case command.commands.start:
-                    const count = await User.findOne({chatId: chat_id})
-                    if (!count){
-                        await User.create({chatId: chat_id})
-                    }
-                    await bot.sendSticker(chat_id, stickers.stickers.deamon.welcome)
-                    await bot.sendMessage(chat_id, `${responses.response.start} ${user_first_name}!`, startMenu)
+                    startCommand(chat_id, user_first_name)
                     break;
                 case command.commands.info:
-                    const user = await User.find({chatId: chat_id})
-                    const wins = CalculateHalper.caclucationWins(user[0].right, user[0].wrong)
-                    await bot.sendSticker(chat_id, stickers.stickers.deamon.info)
-                    await bot.sendMessage(chat_id, `${responses.response.info_first} ${user[0].right} ${responses.response.info_count}, ${responses.response.info_second} ${user[0].wrong} ${responses.response.info_count}. ${responses.response.win_rate} ${wins}. ${wins >= 50? responses.response.win_rate_message_nice: responses.response.win_rate_message_bad}`)
+                    getInfo(chat_id)
                     break;
                 case command.commands.game:
                     startNewGame(chat_id)
                     break;
                 case command.commands.help:
                     getHelp(chat_id)
-                    break
+                    break;
                 case command.commands.weekend:
                     getWeekend(chat_id)
-                    break
+                    break;
                 default:
-                    await bot.sendSticker(chat_id, stickers.stickers.deamon.error)
-                    await bot.sendMessage(chat_id, responses.response.error)
+                    getErrorMessage(chat_id)
             }
         }catch(e){
             console.log("Eror",e)
@@ -108,12 +139,7 @@ const run = async () =>{
 
         switch(data){
             case String(chats[chat_id]):
-                await User.findOne({chatId: chat_id}, (e, doc) =>{
-                    doc.right++
-                    doc.save()
-                })
-                await bot.sendSticker(chat_id, stickers.stickers.deamon.win)
-                await bot.sendMessage(chat_id, `${responses.response.onSend.success_first} ${user_first_name}, ${responses.response.onSend.success_second} ${chats[chat_id]}`)
+                getRightResult(chat_id, user_first_name)
                 break
             case callback_data.callback_data.again: 
                 startNewGame(chat_id)
@@ -128,12 +154,7 @@ const run = async () =>{
                 getWeekend(chat_id)
                 break
             default:
-                await User.findOne({chatId: chat_id}, (e, doc) =>{
-                    doc.wrong++
-                    doc.save()
-                })
-                await bot.sendSticker(chat_id, stickers.stickers.deamon.fail)
-                await bot.sendMessage(chat_id, `${responses.response.onSend.fail_first} ${chats[chat_id]}, ${responses.response.onSend.fail_second}`, againPlay)
+                getWrongResult(chat_id)
         }
     })
 }

@@ -11,35 +11,12 @@ const command = require('./config/config.json')
 const descriptions = require('./config/config.json')
 const responses = require('./config/config.json')
 const callback_data = require('./config/config.json')
+const weekends = require('./options/weekend.js')
 
 const {gameOptions, againPlay} = require('./options/options')
+const CalculateHalper = require('./helpers/CalculateHalper.js')
 
 const chats = {}
-const weekends = [
-    {occupation: responses.response.weekend.cinema, sticker: stickers.stickers.weekend.cinema},
-    {occupation: responses.response.weekend.park, sticker: stickers.stickers.weekend.park},
-    {occupation: responses.response.weekend.aquapark, sticker: stickers.stickers.weekend.aquapark},
-    {occupation: responses.response.weekend.beach, sticker: stickers.stickers.weekend.beach},
-    {occupation: responses.response.weekend.home, sticker: stickers.stickers.weekend.home},
-    {occupation: responses.response.weekend.amusement_park, sticker: stickers.stickers.weekend.amusement_park},
-    {occupation: responses.response.weekend.shopping_center, sticker: stickers.stickers.weekend.shopping_center},
-    {occupation: responses.response.weekend.bicycle, sticker: stickers.stickers.weekend.bicycle},
-    {occupation: responses.response.weekend.restaurant, sticker: stickers.stickers.weekend.restaurant},
-    {occupation: responses.response.weekend.skates, sticker: stickers.stickers.weekend.skates},
-    {occupation: responses.response.weekend.hike, sticker: stickers.stickers.weekend.hike},
-    {occupation: responses.response.weekend.fishing, sticker: stickers.stickers.weekend.fishing},
-    {occupation: responses.response.weekend.hookah, sticker: stickers.stickers.weekend.hookah},
-    {occupation: responses.response.weekend.bar, sticker: stickers.stickers.weekend.bar}
-]
-
-const randomIntegerNumber = (min, max) =>{
-    let rand = min + Math.random() * (max + 1 - min)
-    return Math.floor(rand)
-}
-
-const caclucationWins = (count_win, count_fail) =>{
-    return Math.floor((count_win / (count_win + count_fail)) * 100)
-}
 
 const startNewGame = async (chat_id) =>{
     await bot.sendMessage(chat_id, responses.response.game_first)
@@ -90,7 +67,7 @@ const run = async () =>{
                     break;
                 case command.commands.info:
                     const user = await User.find({chatId: chat_id})
-                    const wins = caclucationWins(user[0].right, user[0].wrong)
+                    const wins = CalculateHalper.caclucationWins(user[0].right, user[0].wrong)
                     await bot.sendSticker(chat_id, stickers.stickers.deamon.info)
                     await bot.sendMessage(chat_id, `${responses.response.info_first} ${user[0].right} ${responses.response.info_count}, ${responses.response.info_second} ${user[0].wrong} ${responses.response.info_count}. ${responses.response.win_rate} ${wins}. ${wins >= 50? responses.response.win_rate_message_nice: responses.response.win_rate_message_bad}`)
                     break;
@@ -102,7 +79,7 @@ const run = async () =>{
                     await bot.sendMessage(chat_id, responses.response.help)
                     break
                 case command.commands.weekend:
-                    const random_weekend = randomIntegerNumber(0, weekends.length - 1)
+                    const random_weekend = CalculateHalper.randomIntegerNumber(0, weekends.length - 1)
                     await bot.sendMessage(chat_id, weekends[random_weekend].occupation)
                     await bot.sendPhoto(chat_id, weekends[random_weekend].sticker)
                     break

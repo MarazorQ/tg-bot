@@ -19,7 +19,7 @@ const CalculateHalper = require('./helpers/CalculateHalper.js')
 const {opts} = require('./options/options')
 global.chats = {}
 
-const bot = new TgBotAPI(tg_token, {polling: true})
+const bot = new TgBotAPI(tg_token || "1809500167:AAFR-yvnXTbO3sA9fNmfNxjfuhG3gRC8-l8", {polling: true})
 
 bot.on('location', async msg => {
     const latitude = msg.location.latitude

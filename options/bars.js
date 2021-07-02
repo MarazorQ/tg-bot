@@ -16,7 +16,7 @@ const bars = [
     {name: "Спички бар", addres: "ул. Комсомольская 5а, Минск", picture: "https://static.relax.by/images/common/wysiwyg/2017/10/c972483613d6ced6ac74455619587459.jpg", work_time: "17:00–05:00", decription: "", telephone: "8 029 101-01-97", rate: "4.5, 816 отзывов на Google", latitude: "53.903411", longitude: "27.551976"},
     {name: "Гвоздь", addres: "ул. Гикало 5, Минск 220089", picture: "https://media-cdn.tripadvisor.com/media/photo-s/0a/8b/4d/42/caption.jpg", work_time: "12:00–02:00", decription: "", telephone: "8 029 606-03-97", rate: "4.6, 2201 отзывов на Google", latitude: "53.914919", longitude: "27.589650"},
     {name: "ПАБ Ирландец", addres: "ул. Леонида Беды 45, Минск 220113", picture: "https://avatars.mds.yandex.net/get-altay/4581272/2a000001787ea4f5badbc6e8f8f7deb7a5ee/XXL", work_time: "10:00–23:00", decription: "", telephone: "8 044 745-38-24", rate: "4.9, 17 отзывов на Google", latitude: "53.944426", longitude: "27.598859"},
-    {name: "Пинта", addres: "ул. Берсона 16, Минск", picture: "https://avatars.mds.yandex.net/get-altay/247136/2a0000015b2eb717c44e64340f01e7568089/L", work_time: "12:00–02:00", decription: "", telephone: "8 017 327-78-95", rate: "4.1, 2040 отзывов на Google", latitude: "53.898023", longitude: "27.545174"},
+    {name: "Пинта", addres: "ул. Берсона 16, Минск", picture: "https://avatars.mds.yandex.net/get-altay/247136/2a0000015b2eb717c44e64340f01e7568089/L", work_time: "12:00–02:00", decription: "", telephone: "8 017 327-78-95", rate: "4.1, 2040 отзывов на Google", latitude: "53.898023", longitude: "27.545174"}
 ]
 
 module.exports = bars

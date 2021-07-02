@@ -31,14 +31,16 @@
         "info": "/info",
         "game": "/game",
         "help": "/help",
-        "weekend": "/weekend"
+        "weekend": "/weekend",
+        "bars": "/bars"
     },
     "commands_description": {
         "start": "Приветствие",
         "info": "Информация",
         "game": "Играть",
         "help": "Помощь",
-        "weekend": "Время провождение"
+        "weekend": "Время провождение",
+        "bars": "Заведения рядом с тобой"
     },
     "response": {
         "start": "Добро пожаловать дорогой",
@@ -80,14 +82,16 @@
         "again": "/again",
         "help": "/help",
         "weekend": "/weekend",
-        "game": "/game"
+        "game": "/game",
+        "bars": "/bars"
     },
     "menu_text": {
         "again_menu": "Играть еще раз",
         "start_menu": {
             "help": "Возможности чата",
             "start_new_game": "Начать игру",
-            "weekend": "Как провести время?"
+            "weekend": "Как провести время?",
+            "bars": "Найти заведения возле тебя?"
         }
     }
 }

@@ -26,6 +26,7 @@ module.exports = {
                 [{text: menu_text.menu_text.start_menu.help, callback_data: callback_data.callback_data.help},
                 {text: menu_text.menu_text.start_menu.start_new_game, callback_data: callback_data.callback_data.game}],
                 [{text: menu_text.menu_text.start_menu.weekend, callback_data: callback_data.callback_data.weekend}],
+                [{text: menu_text.menu_text.start_menu.bars, callback_data: callback_data.callback_data.bars}],
             ]
         })
     },
@@ -33,7 +34,6 @@ module.exports = {
         reply_markup: JSON.stringify({
           keyboard: [
             [{text: 'Location', request_location: true}],
-            [{text: 'Contact', request_contact: true}],
           ],
           resize_keyboard: true,
           one_time_keyboard: true,

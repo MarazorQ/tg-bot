@@ -6,7 +6,7 @@ const responses = require('../config/config.json')
 const stickers = require('../config/config.json')
 
 //menu
-const {startMenu, opts} = require('../options/options')
+const {startMenu} = require('../options/options')
 
 class Common{
     async getHelp(chat_id, bot){
@@ -15,7 +15,7 @@ class Common{
     }
     async getErrorMessage(chat_id, bot){
         await bot.sendSticker(chat_id, stickers.stickers.deamon.error)
-        await bot.sendMessage(chat_id, responses.response.error, opts)
+        await bot.sendMessage(chat_id, responses.response.error)
     }
     async startCommand(chat_id, user_first_name, bot){
         const count = await User.findOne({chatId: chat_id})

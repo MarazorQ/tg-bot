@@ -16,10 +16,23 @@ const Common = require('./modules/Common.js')
 const Game = require('./modules/Game.js')
 const Weekend = require('./modules/Weekend.js')
 const CalculateHalper = require('./helpers/CalculateHalper.js')
-
+const {opts} = require('./options/options')
 global.chats = {}
 
 const bot = new TgBotAPI(tg_token, {polling: true})
+
+bot.on('location', async msg => {
+    const latitude = msg.location.latitude
+    const longitude = msg.location.longitude
+    const chat_id = msg.chat.id
+
+    for (let item of bars){
+        let d = CalculateHalper.haversineDistance(latitude, longitude, item.latitude, item.longitude)
+        if (d <= 3){
+            await bot.sendMessage(chat_id, `Я нашла заведения, которые находятся недальше, чем 3 км от тебя. ${item.name}, телефон: ${item.telephone}, адрес: ${item.addres}, рейтинг: ${item.rate}, время работы ${item.work_time}, находится от вас в ${d} км, ${item.picture}`)
+        }
+    }
+});
 
 // main
 const startBot = async () =>{
@@ -29,21 +42,10 @@ const startBot = async () =>{
         {command: command.commands.info, description: descriptions.commands_description.info},
         {command: command.commands.game, description: descriptions.commands_description.game},
         {command: command.commands.help, description: descriptions.commands_description.help},
-        {command: command.commands.weekend, description: descriptions.commands_description.weekend}
+        {command: command.commands.weekend, description: descriptions.commands_description.weekend},
+        {command: command.commands.bars, description: descriptions.commands_description.bars}
     ])
     
-    bot.on('location', async (msg) => {
-        const latitude = msg.location.latitude
-        const longitude = msg.location.longitude
-        const chat_id = msg.chat.id
-
-        for (let item of bars){
-            let d = CalculateHalper.haversineDistance(latitude, longitude, item.latitude, item.longitude)
-            if (d <= 3){
-                await bot.sendMessage(chat_id, `Я нашла заведения, которые находятся недальше, чем 3 км от тебя. ${item.name}, телефон: ${item.telephone}, адрес: ${item.addres}, рейтинг: ${item.rate}, время работы ${item.work_time}, находится от вас в ${d} км, ${item.picture}`)
-            }
-        }
-      });
     // start bot
     bot.on('message', async msg => {
         const user_text = msg.text
@@ -68,6 +70,9 @@ const startBot = async () =>{
                 case command.commands.weekend:
                     Weekend.getWeekend(chat_id, bot)
                     break;
+                case command.commands.bars:
+                    bot.sendMessage(chat_id,'Скажи пожалуйтса мне свою геолакацию, чтобы я могла показать заведения рядом с тобой', opts)
+                    break
                 default:
                     Common.getErrorMessage(chat_id, bot)
             }
@@ -97,6 +102,9 @@ const startBot = async () =>{
                 break
             case callback_data.callback_data.weekend:
                 Weekend.getWeekend(chat_id, bot)
+                break
+            case callback_data.callback_data.bars:
+                bot.sendMessage(chat_id,'Скажи пожалуйтса мне свою геолакацию, чтобы я могла показать заведения рядом с тобой', opts)
                 break
             default:
                 Game.getWrongResult(chat_id, bot)

@@ -1,6 +1,11 @@
+//model
 const User = require('../db/models.js')
+
+//config
 const responses = require('../config/config.json')
 const stickers = require('../config/config.json')
+
+//menu
 const {startMenu} = require('../options/options')
 
 class Common{

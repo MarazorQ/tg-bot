@@ -1,7 +1,12 @@
+//model
 const User = require('../db/models.js')
+
+//config
 const responses = require('../config/config.json')
 const stickers = require('../config/config.json')
 const CalculateHalper = require('../helpers/CalculateHalper.js')
+
+//menu
 const {gameOptions, againPlay} = require('../options/options')
 
 class Game{

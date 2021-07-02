@@ -1,15 +1,19 @@
+//libs
 require('dotenv').config()
-
 const TgBotAPI = require('node-telegram-bot-api')
 const mongoose = require('mongoose')
 
+//env
 const tg_token = process.env.TG_TOKEN
 const db = process.env.DB_HOST
+
+//config
 const command = require('./config/config.json')
 const descriptions = require('./config/config.json')
 const responses = require('./config/config.json')
 const callback_data = require('./config/config.json')
 
+// modules
 const Common = require('./modules/Common.js')
 const Game = require('./modules/Game.js')
 const Weekend = require('./modules/Weekend.js')
@@ -48,26 +52,21 @@ const run = async () =>{
             // send response to user 
             switch(user_text){
                 case command.commands.start:
-                    // startCommand(chat_id, user_first_name)
                     Common.startCommand(chat_id, user_first_name, bot)
                     break;
                 case command.commands.info:
-                    // getInfo(chat_id)
                     Game.getInfo(chat_id, bot)
                     break;
                 case command.commands.game:
                     Game.startNewGame(chat_id, bot)
                     break;
                 case command.commands.help:
-                    // getHelp(chat_id)
                     Common.getHelp(chat_id, bot)
                     break;
                 case command.commands.weekend:
-                    // getWeekend(chat_id)
                     Weekend.getWeekend(chat_id, bot)
                     break;
                 default:
-                    // getErrorMessage(chat_id)
                     Common.getErrorMessage(chat_id, bot)
             }
         }catch(e){

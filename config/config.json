@@ -81,5 +81,13 @@
         "help": "/help",
         "weekend": "/weekend",
         "game": "/game"
+    },
+    "menu_text": {
+        "again_menu": "Играть еще раз",
+        "start_menu": {
+            "help": "Возможности чата",
+            "start_new_game": "Начать игру",
+            "weekend": "Как провести время?"
+        }
     }
 }

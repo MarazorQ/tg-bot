@@ -1,3 +1,6 @@
+const callback_data = require('../config/config.json')
+const menu_text = require('../config/config.json')
+
 // send form
 module.exports = {
     gameOptions: {
@@ -13,15 +16,16 @@ module.exports = {
     againPlay: {
         reply_markup: JSON.stringify({
             inline_keyboard: [
-                [{text: "Играть еще раз", callback_data: '/again'}],
+                [{text: menu_text.menu_text.again_menu, callback_data: callback_data.callback_data.again}],
             ]
         })
     },
     startMenu: {
         reply_markup: JSON.stringify({
             inline_keyboard: [
-                [{text: "Возможности чата", callback_data: '/help'},{text: "Начать игру", callback_data: '/game'}],
-                [{text: "Как провести время?", callback_data: '/weekend'}],
+                [{text: menu_text.menu_text.start_menu.help, callback_data: callback_data.callback_data.help},
+                {text: menu_text.menu_text.start_menu.start_new_game, callback_data: callback_data.callback_data.game}],
+                [{text: menu_text.menu_text.start_menu.weekend, callback_data: callback_data.callback_data.weekend}],
             ]
         })
     }

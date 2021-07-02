@@ -9,11 +9,13 @@ const command = require('./config/config.json')
 const descriptions = require('./config/config.json')
 const responses = require('./config/config.json')
 const callback_data = require('./config/config.json')
+const bars = require('./options/bars.js')
 
 // modules
 const Common = require('./modules/Common.js')
 const Game = require('./modules/Game.js')
 const Weekend = require('./modules/Weekend.js')
+const CalculateHalper = require('./helpers/CalculateHalper.js')
 
 global.chats = {}
 
@@ -29,6 +31,19 @@ const startBot = async () =>{
         {command: command.commands.help, description: descriptions.commands_description.help},
         {command: command.commands.weekend, description: descriptions.commands_description.weekend}
     ])
+    
+    bot.on('location', async (msg) => {
+        const latitude = msg.location.latitude
+        const longitude = msg.location.longitude
+        const chat_id = msg.chat.id
+
+        for (let item of bars){
+            let d = CalculateHalper.haversineDistance(latitude, longitude, item.latitude, item.longitude)
+            if (d <= 3){
+                await bot.sendMessage(chat_id, `Я нашла заведения, которые находятся недальше, чем 3 км от тебя. ${item.name}, телефон: ${item.telephone}, адрес: ${item.addres}, рейтинг: ${item.rate}, время работы ${item.work_time}, находится от вас в ${d} км, ${item.picture}`)
+            }
+        }
+      });
     // start bot
     bot.on('message', async msg => {
         const user_text = msg.text

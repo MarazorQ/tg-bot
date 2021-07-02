@@ -28,5 +28,15 @@ module.exports = {
                 [{text: menu_text.menu_text.start_menu.weekend, callback_data: callback_data.callback_data.weekend}],
             ]
         })
-    }
+    },
+    opts: {
+        reply_markup: JSON.stringify({
+          keyboard: [
+            [{text: 'Location', request_location: true}],
+            [{text: 'Contact', request_contact: true}],
+          ],
+          resize_keyboard: true,
+          one_time_keyboard: true,
+        }),
+      }
 }

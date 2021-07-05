@@ -10,7 +10,7 @@ const descriptions = require('./config/config.json')
 const responses = require('./config/config.json')
 const callback_data = require('./config/config.json')
 const bars = require('./options/bars.js')
-
+const stickers = require('./config/config.json')
 // modules
 const Common = require('./modules/Common.js')
 const Game = require('./modules/Game.js')
@@ -26,14 +26,20 @@ bot.on('location', async msg => {
     const latitude = msg.location.latitude
     const longitude = msg.location.longitude
     const chat_id = msg.chat.id
-
+    let counter = 0
+    
     for (let item of bars){
         let d = CalculateHalper.haversineDistance(latitude, longitude, item.latitude, item.longitude)
         if (d <= 3){
+            counter++
             await bot.sendMessage(chat_id, OutputMessageHalper.getHtmlBars(item, d),{
                 parse_mode: 'HTML'
             })
         }
+    }
+    if (counter === 0){
+        bot.sendSticker(chat_id, stickers.stickers.deamon.not_found)
+        bot.sendMessage(chat_id, responses.response.bars.not_found)
     }
 });
 
@@ -74,10 +80,10 @@ const startBot = async () =>{
                     Weekend.getWeekend(chat_id, bot)
                     break;
                 case command.commands.bars:
-                    bot.sendMessage(chat_id,'Скажи пожалуйтса мне свою геолакацию, чтобы я могла показать заведения рядом с тобой', opts)
+                    bot.sendMessage(chat_id, responses.response.bars.location, opts)
                     break
                 case undefined:
-                    bot.sendMessage(chat_id, 'секунду...')
+                    bot.sendMessage(chat_id, responses.response.bars.wait)
                     break
                 default:
                     Common.getErrorMessage(chat_id, bot)
@@ -110,7 +116,7 @@ const startBot = async () =>{
                 Weekend.getWeekend(chat_id, bot)
                 break
             case callback_data.callback_data.bars:
-                bot.sendMessage(chat_id,'Скажи пожалуйтса мне свою геолакацию, чтобы я могла показать заведения рядом с тобой', opts)
+                bot.sendMessage(chat_id, responses.response.bars.location, opts)
                 break
             default:
                 Game.getWrongResult(chat_id, bot)

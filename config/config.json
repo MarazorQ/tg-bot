@@ -7,7 +7,8 @@
             "fail": "https://tlgrm.ru/_/stickers/c62/4a8/c624a88d-1fe3-403a-b41a-3cdb9bf05b8a/36.webp",
             "win": "https://tlgrm.ru/_/stickers/c62/4a8/c624a88d-1fe3-403a-b41a-3cdb9bf05b8a/46.webp",
             "error": "https://tlgrm.ru/_/stickers/c62/4a8/c624a88d-1fe3-403a-b41a-3cdb9bf05b8a/37.webp",
-            "help": "https://tlgrm.ru/_/stickers/c62/4a8/c624a88d-1fe3-403a-b41a-3cdb9bf05b8a/44.webp"
+            "help": "https://tlgrm.ru/_/stickers/c62/4a8/c624a88d-1fe3-403a-b41a-3cdb9bf05b8a/44.webp",
+            "not_found": "https://tlgrm.ru/_/stickers/c62/4a8/c624a88d-1fe3-403a-b41a-3cdb9bf05b8a/8.webp"
         },
         "weekend": {
             "cinema": "https://img.the-village.me/the-village.me/post_image-image/_tw5IzLHZ3PSVWz2mI7LKg-wide.jpg",
@@ -76,6 +77,11 @@
             "fishing": "Пойти на рыбалку",
             "hookah": "Пойти в кальянную",
             "bar": "Пойти в бар"
+        },
+        "bars": {
+            "location": "Скажи пожалуйтса мне свою геолакацию, чтобы я могла показать заведения рядом с тобой",
+            "not_found": "Извините, но вблизи 3 км ничего не было найдено...",
+            "wait": "секунду..."
         }
     },
     "callback_data": {

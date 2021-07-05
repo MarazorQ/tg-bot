@@ -76,6 +76,9 @@ const startBot = async () =>{
                 case command.commands.bars:
                     bot.sendMessage(chat_id,'Скажи пожалуйтса мне свою геолакацию, чтобы я могла показать заведения рядом с тобой', opts)
                     break
+                case undefined:
+                    bot.sendMessage(chat_id, 'секунду...')
+                    break
                 default:
                     Common.getErrorMessage(chat_id, bot)
             }

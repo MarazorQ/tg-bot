@@ -16,6 +16,7 @@ const Common = require('./modules/Common.js')
 const Game = require('./modules/Game.js')
 const Weekend = require('./modules/Weekend.js')
 const CalculateHalper = require('./helpers/CalculateHalper.js')
+const OutputMessageHalper = require('./helpers/OutputMessageHalper.js')
 const {opts} = require('./options/options')
 global.chats = {}
 
@@ -29,7 +30,9 @@ bot.on('location', async msg => {
     for (let item of bars){
         let d = CalculateHalper.haversineDistance(latitude, longitude, item.latitude, item.longitude)
         if (d <= 3){
-            await bot.sendMessage(chat_id, `Я нашла заведения, которые находятся недальше, чем 3 км от тебя. ${item.name}, телефон: ${item.telephone}, адрес: ${item.addres}, рейтинг: ${item.rate}, время работы ${item.work_time}, находится от вас в ${d} км, ${item.picture}`)
+            await bot.sendMessage(chat_id, OutputMessageHalper.getHtmlBars(item, d),{
+                parse_mode: 'HTML'
+            })
         }
     }
 });
